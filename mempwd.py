@@ -1,5 +1,6 @@
 from random import SystemRandom
-
+import string
+import math
 
 rand = SystemRandom()
 pwdlen = 16
@@ -34,15 +35,42 @@ def searchForWord(wordlen, listsize):
 	return retword
 
 
+def fillCharacters(passList, lengthsList):
+	curLen = sum(lengthsList)
+	extraLen = pwdlen - curLen
+	midpass = ""
 
-loadWords()
+	for i in range(extraLen):
+		charOrNum = rand.randrange(2) #0 - character, 1 - number
+		if charOrNum == 0: 
+			index = rand.randrange(len(string.punctuation))
+			midpass += string.punctuation[index]
+		else:
+			index = rand.randrange(len(string.digits))
+			midpass += string.digits[index]
 
-word1_len = int(pwdlen / 2) - rand.randrange(int(pwdlen / 4)) 
-word2_len = int(pwdlen / 2) - rand.randrange(int(pwdlen / 4)) 
-listsize = len(wordlist) + 1
+	return passList[0] + midpass + passList[1]
 
-word1 = searchForWord(word1_len, listsize)
-word2 = searchForWord(word2_len, listsize)
 
-print word1_len, word1
-print word2_len, word2
+def main():
+	loadWords()
+
+	word1_len = int(pwdlen / 2) - rand.randrange(int(pwdlen / 4)) 
+	word2_len = int(pwdlen / 2) - rand.randrange(int(pwdlen / 4)) 
+	listsize = len(wordlist) + 1
+
+	word1 = searchForWord(word1_len, listsize)
+	word2 = searchForWord(word2_len, listsize)
+
+	wlist = [word1, word2]
+	llist = [word1_len, word2_len]
+
+	password = fillCharacters(wlist, llist)
+	print password
+
+
+if __name__ == "__main__":
+	main()
+
+
+
