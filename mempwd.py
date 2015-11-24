@@ -12,8 +12,6 @@ def loadWords():
 
 
 #Random Binary Search
-#time: O(logn)
-#space: O(1)
 def searchForWord(wordlen, listsize):
 	notChosen = True
 	totalsize = listsize
