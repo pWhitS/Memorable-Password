@@ -3,7 +3,7 @@ import string
 import math
 
 rand = SystemRandom()
-pwdlen = 16
+pwdlen = 20
 wordlist = []
 
 def loadWords():
@@ -35,7 +35,7 @@ def searchForWord(wordlen, listsize):
 	return retword
 
 
-def fillCharacters(passList, lengthsList):
+def fillMiddleChars(passList, lengthsList):
 	curLen = sum(lengthsList)
 	extraLen = pwdlen - curLen
 	midpass = ""
@@ -52,6 +52,29 @@ def fillCharacters(passList, lengthsList):
 	return passList[0] + midpass + passList[1]
 
 
+def smallPassword():
+	pass
+
+def mediumPassword():
+	pass
+
+def longPassword():
+
+
+def setPasswordConfiguration(length):
+	#[word]+ [a-Z]* [0-9]+ [a-Z]* [word]+
+	word = "1"
+	character = "2"
+	number = "3"
+
+	if length <= 8:
+		smallPassword()
+	elif length > 8 and length <= 16
+		mediumPassword()
+	else
+		longPassword()
+
+
 def main():
 	loadWords()
 
@@ -65,7 +88,7 @@ def main():
 	wlist = [word1, word2]
 	llist = [word1_len, word2_len]
 
-	password = fillCharacters(wlist, llist)
+	password = fillMiddleChars(wlist, llist)
 	print password
 
 
