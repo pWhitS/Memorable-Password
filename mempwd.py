@@ -3,7 +3,7 @@ import string
 import math
 
 rand = SystemRandom()
-pwdlen = 20
+pwdlen = 8
 wordlist = []
 
 def loadWords():
@@ -35,7 +35,7 @@ def searchForWord(wordlen, listsize):
 	return retword
 
 
-def fillMiddleChars(passList, lengthsList):
+def fillCharacters(passList, lengthsList):
 	curLen = sum(lengthsList)
 	extraLen = pwdlen - curLen
 	midpass = ""
@@ -52,13 +52,56 @@ def fillMiddleChars(passList, lengthsList):
 	return passList[0] + midpass + passList[1]
 
 
-def smallPassword():
-	pass
+def generateCharacters(numchars):
+	chars = ""
+	for i in range(numchars):
+		charOrNum = rand.randrange(2) #0 - character, 1 - number
+		if charOrNum == 0: 
+			index = rand.randrange(len(string.punctuation))
+			chars += string.punctuation[index]
+		else:
+			index = rand.randrange(len(string.digits))
+			chars += string.digits[index]
+
+	return chars
+
+
+def smallPassword(pwdlen):
+	if pwdlen > 8:
+		print("[-] Error: Something went wrong")
+		return
+
+	global wordlist
+	password = ""
+	numWords = rand.randrange(2) + 1
+
+	word1_len = int(pwdlen / 2) - (rand.randrange(int(pwdlen / 8)) + 1)
+	word1 = searchForWord(word1_len, len(wordlist))
+	curlen = word1_len
+	
+	if numWords == 1:
+		echars = generateCharacters(pwdlen - curlen)
+		isFront = rand.randrange(2) #0 back, 1 front
+		if isFront:
+			password = echars + word1
+		else:
+			password = word1 + echars
+		return password
+	
+	word2_len = int(pwdlen / 2) - rand.randrange(int(pwdlen / 4))
+	word2 = searchForWord(word2_len, len(wordlist))
+	curlen += word2_len
+	echars = generateCharacters(pwdlen - curlen)
+	password = word1 + echars + word2
+
+	return password
+
 
 def mediumPassword():
 	pass
 
 def longPassword():
+	pass
 
 
 def setPasswordConfiguration(length):
@@ -69,27 +112,31 @@ def setPasswordConfiguration(length):
 
 	if length <= 8:
 		smallPassword()
-	elif length > 8 and length <= 16
+	elif length > 8 and length <= 16:
 		mediumPassword()
-	else
+	else:
 		longPassword()
 
 
 def main():
 	loadWords()
+	display_num = 10
 
-	word1_len = int(pwdlen / 2) - rand.randrange(int(pwdlen / 4)) 
-	word2_len = int(pwdlen / 2) - rand.randrange(int(pwdlen / 4)) 
-	listsize = len(wordlist) + 1
+	for i in range(display_num):
+		print(smallPassword(pwdlen))
 
-	word1 = searchForWord(word1_len, listsize)
-	word2 = searchForWord(word2_len, listsize)
+	# word1_len = int(pwdlen / 2) - rand.randrange(int(pwdlen / 4)) 
+	# word2_len = int(pwdlen / 2) - rand.randrange(int(pwdlen / 4)) 
+	# listsize = len(wordlist) + 1
 
-	wlist = [word1, word2]
-	llist = [word1_len, word2_len]
+	# word1 = searchForWord(word1_len, listsize)
+	# word2 = searchForWord(word2_len, listsize)
 
-	password = fillMiddleChars(wlist, llist)
-	print password
+	# wlist = [word1, word2]
+	# llist = [word1_len, word2_len]
+
+	# password = fillCharacters(wlist, llist)
+	# print(password)
 
 
 if __name__ == "__main__":
