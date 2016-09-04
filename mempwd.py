@@ -4,6 +4,7 @@ import math
 
 rand = SystemRandom()
 pwdlen = 8
+display_num = 10
 wordlist = []
 
 def loadWords():
@@ -67,7 +68,7 @@ def generateCharacters(numchars):
 
 
 def smallPassword(pwdlen):
-	if pwdlen > 8:
+	if pwdlen > 8 or pwdlen < 6:
 		print("[-] Error: Something went wrong")
 		return
 
@@ -75,12 +76,11 @@ def smallPassword(pwdlen):
 	password = ""
 	numWords = rand.randrange(2) + 1
 
-	word1_len = int(pwdlen / 2) - (rand.randrange(int(pwdlen / 8)) + 1)
-	word1 = searchForWord(word1_len, len(wordlist))
-	curlen = word1_len
-	
 	if numWords == 1:
-		echars = generateCharacters(pwdlen - curlen)
+		word1_len = pwdlen - (rand.randrange(int(pwdlen / 2)) + 1)
+		word1 = searchForWord(word1_len, len(wordlist))
+		echars = generateCharacters(pwdlen - word1_len)
+
 		isFront = rand.randrange(2) #0 back, 1 front
 		if isFront:
 			password = echars + word1
@@ -88,9 +88,12 @@ def smallPassword(pwdlen):
 			password = word1 + echars
 		return password
 	
+	word1_len = int(pwdlen / 2) - rand.randrange(int(pwdlen / 4))
 	word2_len = int(pwdlen / 2) - rand.randrange(int(pwdlen / 4))
+	word1 = searchForWord(word1_len, len(wordlist))
 	word2 = searchForWord(word2_len, len(wordlist))
-	curlen += word2_len
+
+	curlen = word1_len + word2_len
 	echars = generateCharacters(pwdlen - curlen)
 	password = word1 + echars + word2
 
@@ -120,7 +123,6 @@ def setPasswordConfiguration(length):
 
 def main():
 	loadWords()
-	display_num = 10
 
 	for i in range(display_num):
 		print(smallPassword(pwdlen))
