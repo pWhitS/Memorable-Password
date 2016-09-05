@@ -68,7 +68,7 @@ def generateCharacters(numchars):
 
 
 def smallPassword(pwdlen):
-	if pwdlen < 6 or pwdlen > 10:
+	if pwdlen < 6 or pwdlen > 12:
 		print("[-] Error: Something went wrong")
 		return
 
@@ -116,8 +116,11 @@ def longPassword(pwdlen):
 	word3 = searchForWord(word3_len, len(wordlist))
 
 	curlen = word1_len + word2_len + word3_len
-	echars = generateCharacters(pwdlen - curlen)
-	password = word1 + echars[0] + word2 + echars[1:] + word3
+	exlen = pwdlen - curlen
+	echars = generateCharacters(exlen)
+
+	csplit = rand.randrange(exlen+1)
+	password = word1 + echars[0:csplit] + word2 + echars[csplit:] + word3
 
 	return password
 
@@ -140,20 +143,7 @@ def main():
 	loadWords()
 
 	for i in range(display_num):
-		print(longPassword(18))
-
-	# word1_len = int(pwdlen / 2) - rand.randrange(int(pwdlen / 4)) 
-	# word2_len = int(pwdlen / 2) - rand.randrange(int(pwdlen / 4)) 
-	# listsize = len(wordlist) + 1
-
-	# word1 = searchForWord(word1_len, listsize)
-	# word2 = searchForWord(word2_len, listsize)
-
-	# wlist = [word1, word2]
-	# llist = [word1_len, word2_len]
-
-	# password = fillCharacters(wlist, llist)
-	# print(password)
+		print(longPassword(22))
 
 
 if __name__ == "__main__":
