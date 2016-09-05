@@ -41,23 +41,6 @@ def searchForWord(wordlen, listsize):
 	return retword
 
 
-def fillCharacters(passList, lengthsList):
-	curLen = sum(lengthsList)
-	extraLen = pwdlen - curLen
-	midpass = ""
-
-	for i in range(extraLen):
-		charOrNum = rand.randrange(2) #0 - character, 1 - number
-		if charOrNum == 0: 
-			index = rand.randrange(len(string.punctuation))
-			midpass += string.punctuation[index]
-		else:
-			index = rand.randrange(len(string.digits))
-			midpass += string.digits[index]
-
-	return passList[0] + midpass + passList[1]
-
-
 def generateCharacters(numchars):
 	chars = ""
 	doRand = True
