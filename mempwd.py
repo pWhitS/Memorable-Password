@@ -68,28 +68,31 @@ def generateCharacters(numchars):
 
 
 def smallPassword(pwdlen):
-	if pwdlen > 10 or pwdlen < 6:
+	if pwdlen < 6 or pwdlen > 10:
 		print("[-] Error: Something went wrong")
 		return
 
 	global wordlist
-	password = ""
-	numWords = rand.randrange(2) + 1
+	word1_len = pwdlen - (rand.randrange(int(pwdlen / 2)) + 1)
+	word1 = searchForWord(word1_len, len(wordlist))
+	echars = generateCharacters(pwdlen - word1_len)
 
-	if numWords == 1:
-		word1_len = pwdlen - (rand.randrange(int(pwdlen / 2)) + 1)
-		word1 = searchForWord(word1_len, len(wordlist))
-		echars = generateCharacters(pwdlen - word1_len)
-
-		isFront = rand.randrange(2) #0 back, 1 front
-		if isFront:
-			password = echars + word1
-		else:
-			password = word1 + echars	
-		return password
+	isFront = rand.randrange(2) #0 back, 1 front
+	if isFront:
+		password = echars + word1
+	else:
+		password = word1 + echars	
 	
-	word1_len = int(pwdlen / 2) - rand.randrange(int(pwdlen / 4))
-	word2_len = int(pwdlen / 2) - rand.randrange(int(pwdlen / 4))
+	return password
+	
+
+def mediumPassword(pwdlen):
+	if pwdlen < 8 or pwdlen > 18:
+		print("[-] Error: Something went wrong")
+		return
+
+	word1_len = int(pwdlen / 2) - rand.randrange(int(pwdlen / 4) + 1)
+	word2_len = int(pwdlen / 2) - rand.randrange(int(pwdlen / 4) + 1)
 	word1 = searchForWord(word1_len, len(wordlist))
 	word2 = searchForWord(word2_len, len(wordlist))
 
@@ -100,11 +103,23 @@ def smallPassword(pwdlen):
 	return password
 
 
-def mediumPassword():
-	pass
+def longPassword(pwdlen):
+	if pwdlen < 16 or pwdlen > 22:
+		print("[-] Error: Something went wrong")
+		return
 
-def longPassword():
-	pass
+	word1_len = int(pwdlen / 3) - rand.randrange(int(pwdlen / 6) + 1)
+	word2_len = int(pwdlen / 3) - rand.randrange(int(pwdlen / 6) + 1)
+	word3_len = int(pwdlen / 3) - rand.randrange(int(pwdlen / 6) + 1)
+	word1 = searchForWord(word1_len, len(wordlist))
+	word2 = searchForWord(word2_len, len(wordlist))
+	word3 = searchForWord(word3_len, len(wordlist))
+
+	curlen = word1_len + word2_len + word3_len
+	echars = generateCharacters(pwdlen - curlen)
+	password = word1 + echars[0] + word2 + echars[1:] + word3
+
+	return password
 
 
 def setPasswordConfiguration(length):
@@ -124,11 +139,8 @@ def setPasswordConfiguration(length):
 def main():
 	loadWords()
 
-	mediumPassword()
-	return
-
 	for i in range(display_num):
-		print(smallPassword(pwdlen))
+		print(longPassword(18))
 
 	# word1_len = int(pwdlen / 2) - rand.randrange(int(pwdlen / 4)) 
 	# word2_len = int(pwdlen / 2) - rand.randrange(int(pwdlen / 4)) 
