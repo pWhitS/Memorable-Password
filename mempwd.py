@@ -67,6 +67,20 @@ def generateCharacters(numchars):
 	return chars
 
 
+def capitalizeTransform(word):
+	doCap = rand.randrange(2) #0 no caps, 1 capitalize
+	if not doCap:
+		return word
+
+	isFront = rand.randrange(2) #0 back, 1 front
+	if isFront:
+		word = word[0].upper() + word[1:]
+	else:
+		word = word[0:len(word)-1] + word[len(word)-1].upper()
+
+	return word
+
+
 def smallPassword(pwdlen):
 	if pwdlen < 6 or pwdlen > 12:
 		print("[-] Error: Something went wrong")
@@ -75,6 +89,7 @@ def smallPassword(pwdlen):
 	global wordlist
 	word1_len = pwdlen - (rand.randrange(int(pwdlen / 2)) + 1)
 	word1 = searchForWord(word1_len, len(wordlist))
+	word1 = capitalizeTransform(word1)
 	echars = generateCharacters(pwdlen - word1_len)
 
 	isFront = rand.randrange(2) #0 back, 1 front
@@ -93,8 +108,12 @@ def mediumPassword(pwdlen):
 
 	word1_len = int(pwdlen / 2) - rand.randrange(int(pwdlen / 4) + 1)
 	word2_len = int(pwdlen / 2) - rand.randrange(int(pwdlen / 4) + 1)
+
 	word1 = searchForWord(word1_len, len(wordlist))
 	word2 = searchForWord(word2_len, len(wordlist))
+
+	word1 = capitalizeTransform(word1)
+	word2 = capitalizeTransform(word2)
 
 	curlen = word1_len + word2_len
 	echars = generateCharacters(pwdlen - curlen)
@@ -111,9 +130,14 @@ def longPassword(pwdlen):
 	word1_len = int(pwdlen / 3) - rand.randrange(int(pwdlen / 6) + 1)
 	word2_len = int(pwdlen / 3) - rand.randrange(int(pwdlen / 6) + 1)
 	word3_len = int(pwdlen / 3) - rand.randrange(int(pwdlen / 6) + 1)
+
 	word1 = searchForWord(word1_len, len(wordlist))
 	word2 = searchForWord(word2_len, len(wordlist))
 	word3 = searchForWord(word3_len, len(wordlist))
+
+	word1 = capitalizeTransform(word1)
+	word2 = capitalizeTransform(word2)
+	word3 = capitalizeTransform(word3)
 
 	curlen = word1_len + word2_len + word3_len
 	exlen = pwdlen - curlen
@@ -143,7 +167,7 @@ def main():
 	loadWords()
 
 	for i in range(display_num):
-		print(longPassword(22))
+		print(mediumPassword(15))
 
 
 if __name__ == "__main__":
