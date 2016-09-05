@@ -1,4 +1,5 @@
 from random import SystemRandom
+import argparse
 import string
 import math
 
@@ -7,13 +8,17 @@ pwdlen = 10
 display_num = 10
 wordlist = []
 
+NO_SPEC_CHARS = False
+NO_CAPS = False
+
+
 def loadWords():
 	global wordlist
 	with open('ordered-english-words.txt', 'r') as ifl:
 		wordlist = ifl.read().splitlines()
 
 
-#Random Binary Search
+#Randomized Binary Search
 def searchForWord(wordlen, listsize):
 	notChosen = True
 	totalsize = listsize
@@ -55,8 +60,16 @@ def fillCharacters(passList, lengthsList):
 
 def generateCharacters(numchars):
 	chars = ""
+	doRand = True
+
+	if NO_SPEC_CHARS:
+		charOrNum = 1
+		doRand = False
+
 	for i in range(numchars):
-		charOrNum = rand.randrange(2) #0 - character, 1 - number
+		if doRand:
+			charOrNum = rand.randrange(2) #0 - character, 1 - number
+
 		if charOrNum == 0: 
 			index = rand.randrange(len(string.punctuation))
 			chars += string.punctuation[index]
@@ -68,6 +81,9 @@ def generateCharacters(numchars):
 
 
 def capitalizeTransform(word):
+	if NO_CAPS:
+		return word
+
 	doCap = rand.randrange(2) #0 no caps, 1 capitalize
 	if not doCap:
 		return word
@@ -149,21 +165,38 @@ def longPassword(pwdlen):
 	return password
 
 
-def setPasswordConfiguration(length):
-	#[word]+ [a-Z]* [0-9]+ [a-Z]* [word]+
-	word = "1"
-	character = "2"
-	number = "3"
+def initArgsParser():
+	parser = argparse.ArgumentParser(description="Memorable Password Generator")
+	parser.add_argument('length', metavar='N', type=int,
+				   		help="Number of password characters")
+	parser.add_argument('-n', dest="Output", action="store",
+						help="Number of passwords to output (default 10)")
+	parser.add_argument('-x', "--exclude", dest='exclude', action="store_true",
+						help="No numbers, special characters, or uppercase. (Same as -ls)")
+	parser.add_argument('-l', action="store_true",
+						help="Exclude capitalization, lowercase only.")
+	parser.add_argument('-s', action="store_true",
+						help="Exclude special characters.")
 
-	if length <= 8:
-		smallPassword()
-	elif length > 8 and length <= 16:
-		mediumPassword()
-	else:
-		longPassword()
+	parser.add_argument
+
+	return parser.parse_args()
 
 
 def main():
+	global NO_CAPS
+	global NO_SPEC_CHARS
+	args = initArgsParser()	
+
+	if args.exclude:
+		NO_SPEC_CHARS = True
+		NO_CAPS = True
+
+	if args.l:
+		NO_CAPS = True
+	if args.s:
+		NO_SPEC_CHARS = True
+
 	loadWords()
 
 	for i in range(display_num):
