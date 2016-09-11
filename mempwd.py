@@ -3,8 +3,8 @@ import argparse
 import string
 import math
 
-pwdlen = 10
-display_num = 10
+PASSWORD_LENGTH = 10
+DEFAULT_DISPLAY_NUM = 10
 wordlist = []
 
 NO_SPEC_CHARS = False
@@ -99,7 +99,7 @@ def smallPassword(pwdlen):
 	word1 = capitalizeTransform(word1)
 	echars = generateCharacters(pwdlen - word1_len)
 
-	isFront = rand.randrange(2) #0 back, 1 front
+	isFront = csprng(0, 2) #0 back, 1 front
 	if isFront:
 		password = echars + word1
 	else:
@@ -187,6 +187,11 @@ def main():
 		NO_CAPS = True
 	if args.s:
 		NO_SPEC_CHARS = True
+
+	if args.Output is not None:
+		display_num = args.Output
+	else:
+		display_num = DEFAULT_DISPLAY_NUM
 
 	loadWords()
 
