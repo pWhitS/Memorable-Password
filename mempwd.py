@@ -152,10 +152,10 @@ def initArgsParser():
 	parser = argparse.ArgumentParser(description="Memorable Password Generator")
 	parser.add_argument('length', metavar='N', type=int,
 				   		help="Number of password characters")
-	parser.add_argument('-n', dest="Output", action="store",
+	parser.add_argument('-o', dest="Output", action="store",
 						help="Number of passwords to output (default 10)")
 	parser.add_argument('-x', "--exclude", dest='exclude', action="store_true",
-						help="No numbers, special characters, or uppercase. (Same as -ls)")
+						help="Exclude special characters and uppercase. (Same as -ls)")
 	parser.add_argument('-l', action="store_true",
 						help="Exclude capitalization, lowercase only.")
 	parser.add_argument('-s', action="store_true",
@@ -183,7 +183,7 @@ def main():
 	loadWords()
 
 	for i in range(display_num):
-		print(mediumPassword(15))
+		print(mediumPassword(10))
 
 
 if __name__ == "__main__":
