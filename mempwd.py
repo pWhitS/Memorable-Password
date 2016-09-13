@@ -90,8 +90,7 @@ def capitalizeTransform(word):
 
 def smallPassword(pwdlen):
 	if pwdlen < 6 or pwdlen > 12:
-		print("[-] Error: Something went wrong")
-		return
+		return "-1"
 
 	global wordlist
 	word1_len = pwdlen - csprng(0, int(pwdlen / 2)+1, 1) #at least one non-word char
@@ -110,8 +109,7 @@ def smallPassword(pwdlen):
 
 def mediumPassword(pwdlen):
 	if pwdlen < 8 or pwdlen > 18:
-		print("[-] Error: Something went wrong")
-		return
+		return "-1"
 
 	word1_len = int(pwdlen / 2) - csprng(0, int(pwdlen / 4)+1)
 	word2_len = int(pwdlen / 2) - csprng(0, int(pwdlen / 4)+1)
@@ -131,8 +129,7 @@ def mediumPassword(pwdlen):
 
 def longPassword(pwdlen):
 	if pwdlen < 16 or pwdlen > 22:
-		print("[-] Error: Something went wrong")
-		return
+		return "-1"
 
 	word1_len = int(pwdlen / 3) - csprng(0, int(pwdlen / 6)+1)
 	word2_len = int(pwdlen / 3) - csprng(0, int(pwdlen / 6)+1)
@@ -189,14 +186,34 @@ def main():
 		NO_SPEC_CHARS = True
 
 	if args.Output is not None:
-		display_num = args.Output
+		display_num = int(args.Output)
 	else:
 		display_num = DEFAULT_DISPLAY_NUM
 
 	loadWords()
+	PASSWORD_LENGTH = int(args.length)
+	if PASSWORD_LENGTH < 6:
+		print("[-] Error: password cannot be less than 6 characters.")
+		return 
 
 	for i in range(display_num):
-		print(mediumPassword(10))
+		chosen = False
+		while not chosen:
+			passwordType = csprng(0, 3)
+			retval = ""
+
+			if passwordType == 0:
+				retval = smallPassword(PASSWORD_LENGTH)
+			elif passwordType == 1:
+				retval = mediumPassword(PASSWORD_LENGTH)
+			elif passwordType == 2:
+				retval = longPassword(PASSWORD_LENGTH)
+
+			if retval != "-1":
+				chosen = True
+
+		if chosen:
+			print(retval)
 
 
 if __name__ == "__main__":
