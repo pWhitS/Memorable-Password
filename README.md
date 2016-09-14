@@ -10,23 +10,23 @@ This program generates memorable passwords, similar to the memorable password ge
 - Use python (perfereably >v3.0) to run mempwd.py
 - Help menu:
 
-python mempwd.py -h 
-usage: mempwd.py [-h] [-o OUTPUT] [-x] [-l] [-s] N
+python mempwd.py -h  
+usage: mempwd.py [-h] [-o OUTPUT] [-x] [-l] [-s] N  
 
-Memorable Password Generator
-
-positional arguments:
-  N              Number of password characters
-
-optional arguments:
-  -h, --help     show this help message and exit
-  -o OUTPUT      Number of passwords to output (default 10)
-  -x, --exclude  Exclude special characters and uppercase. (Same as -ls)
-  -l             Exclude capitalization, lowercase only.
-  -s             Exclude special characters.
-
-- Basic usage:
-
+Memorable Password Generator  
+  
+positional arguments:  
+  N              Number of password characters  
+  
+optional arguments:  
+  -h, --help     show this help message and exit  
+  -o OUTPUT      Number of passwords to output (default 10)  
+  -x, --exclude  Exclude special characters and uppercase. (Same as -ls)  
+  -l             Exclude capitalization, lowercase only.  
+  -s             Exclude special characters.  
+  
+- Basic usage:  
+  
 python mempwd.py 12 -o 5 -s
 sit544backed
 bearS3067siG
