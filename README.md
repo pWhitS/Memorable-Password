@@ -8,8 +8,9 @@ This program generates memorable passwords, similar to the memorable password ge
 
 ## But how do use it?
 - Use python (perfereably >v3.0) to run mempwd.py
-- Help menu with:
-	 python mempwd.py -h 
+- Help menu:
+
+python mempwd.py -h 
 usage: mempwd.py [-h] [-o OUTPUT] [-x] [-l] [-s] N
 
 Memorable Password Generator
@@ -23,3 +24,12 @@ optional arguments:
   -x, --exclude  Exclude special characters and uppercase. (Same as -ls)
   -l             Exclude capitalization, lowercase only.
   -s             Exclude special characters.
+
+- Basic usage:
+
+python mempwd.py 12 -o 5 -s
+sit544backed
+bearS3067siG
+Doug758Glory
+WrightlayerS
+rack9899card
