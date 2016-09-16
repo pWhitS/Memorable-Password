@@ -3,10 +3,12 @@ This program generates memorable passwords, similar to the memorable password ge
 
 ## How do I get the program?
 - For now, you must clone this repo
-	- git clone https://github.com/pWhitS/Memorable-Password
+```
+$ git clone https://github.com/pWhitS/Memorable-Password
+```
 - Packaging will come in the future...
 
-## But how do use it?
+## But how do I use it?
 - Use python (perfereably >v3.0) to run mempwd.py
 - Help menu:
 ```
