@@ -199,7 +199,7 @@ def main():
 	for i in range(display_num):
 		chosen = False
 		count = 0
-		
+
 		while not chosen:
 			passwordType = csprng(0, 3)
 			retval = ""
@@ -221,6 +221,9 @@ def main():
 					retval = mediumPassword(PASSWORD_LENGTH)
 				if retval == "-1":
 					retval = longPassword(PASSWORD_LENGTH)
+				if retval == "-1":
+					retval = "[-] Error: Somthing went wrong."
+				chosen = True
 			count += 1
 
 		if chosen:
