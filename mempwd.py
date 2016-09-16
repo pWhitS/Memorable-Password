@@ -198,6 +198,8 @@ def main():
 
 	for i in range(display_num):
 		chosen = False
+		count = 0
+		
 		while not chosen:
 			passwordType = csprng(0, 3)
 			retval = ""
@@ -211,6 +213,15 @@ def main():
 
 			if retval != "-1":
 				chosen = True
+
+			#removes infinite loop posibility
+			if count > 1000:
+				retval = smallPassword(PASSWORD_LENGTH)
+				if retval == "-1":
+					retval = mediumPassword(PASSWORD_LENGTH)
+				if retval == "-1":
+					retval = longPassword(PASSWORD_LENGTH)
+			count += 1
 
 		if chosen:
 			print(retval)
