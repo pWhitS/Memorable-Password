@@ -3,12 +3,13 @@ import argparse
 import string
 import math
 
+#Default Settings
 PASSWORD_LENGTH = 10
 DEFAULT_DISPLAY_NUM = 10
-wordlist = []
-
 NO_SPEC_CHARS = False
 NO_CAPS = False
+
+wordlist = [] 
 
 
 def csprng(low, high, offset=0):
@@ -201,7 +202,7 @@ def main():
 		count = 0
 
 		while not chosen:
-			passwordType = csprng(0, 3)
+			passwordType = csprng(0, 3) #Randomly select password type
 			retval = ""
 
 			if passwordType == 0:
@@ -214,7 +215,7 @@ def main():
 			if retval != "-1":
 				chosen = True
 
-			#removes infinite loop posibility
+			#removes infinite loop possibility
 			if count > 1000:
 				retval = smallPassword(PASSWORD_LENGTH)
 				if retval == "-1":
