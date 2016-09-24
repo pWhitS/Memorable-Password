@@ -23,7 +23,7 @@ def csprng(low, high, offset=0):
 
 def loadWords():
 	global wordlist
-	with open('ordered-english-words.txt', 'r') as ifl:
+	with open('ordered-words.txt', 'r') as ifl:
 		wordlist = ifl.read().splitlines()
 
 
@@ -93,7 +93,6 @@ def smallPassword(pwdlen):
 	if pwdlen < 6 or pwdlen > 12:
 		return "-1"
 
-	global wordlist
 	word1_len = pwdlen - csprng(0, int(pwdlen / 2)+1, 1) #at least one non-word char
 	word1 = searchForWord(word1_len, len(wordlist))
 	word1 = capitalizeTransform(word1)
@@ -192,6 +191,7 @@ def main():
 		display_num = DEFAULT_DISPLAY_NUM
 
 	loadWords()
+	
 	PASSWORD_LENGTH = int(args.length)
 	if PASSWORD_LENGTH < 6:
 		print("[-] Error: password cannot be less than 6 characters.")
@@ -216,6 +216,7 @@ def main():
 				chosen = True
 
 			#removes infinite loop possibility
+			count += 1
 			if count > 1000:
 				retval = smallPassword(PASSWORD_LENGTH)
 				if retval == "-1":
@@ -225,7 +226,6 @@ def main():
 				if retval == "-1":
 					retval = "[-] Error: Somthing went wrong."
 				chosen = True
-			count += 1
 
 		if chosen:
 			print(retval)
