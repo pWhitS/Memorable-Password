@@ -9,7 +9,7 @@ DEFAULT_DISPLAY_NUM = 10
 NO_SPEC_CHARS = False
 NO_CAPS = False
 
-wordlist = [] 
+WORDLIST = [] 
 
 
 def csprng(low, high, offset=0):
@@ -22,9 +22,9 @@ def csprng(low, high, offset=0):
 
 
 def loadWords():
-	global wordlist
+	global WORDLIST
 	with open('ordered-words.txt', 'r') as ifl:
-		wordlist = ifl.read().splitlines()
+		WORDLIST = ifl.read().splitlines()
 
 
 #Randomized Binary Search
@@ -36,7 +36,7 @@ def searchForWord(wordlen, listsize):
 
 	while notChosen:
 		index = csprng(0, listsize, offset)
-		length = len(wordlist[index])
+		length = len(WORDLIST[index])
 
 		if length > wordlen:
 			listsize = totalsize - index
@@ -44,7 +44,7 @@ def searchForWord(wordlen, listsize):
 			listsize = totalsize - index
 			offset = index + 1
 		else:
-			retword = wordlist[index]
+			retword = WORDLIST[index]
 			notChosen = False
 
 	return retword
@@ -94,7 +94,7 @@ def smallPassword(pwdlen):
 		return "-1"
 
 	word1_len = pwdlen - csprng(0, int(pwdlen / 2)+1, 1) #at least one non-word char
-	word1 = searchForWord(word1_len, len(wordlist))
+	word1 = searchForWord(word1_len, len(WORDLIST))
 	word1 = capitalizeTransform(word1)
 	echars = generateCharacters(pwdlen - word1_len)
 
@@ -114,8 +114,8 @@ def mediumPassword(pwdlen):
 	word1_len = int(pwdlen / 2) - csprng(0, int(pwdlen / 4)+1)
 	word2_len = int(pwdlen / 2) - csprng(0, int(pwdlen / 4)+1)
 
-	word1 = searchForWord(word1_len, len(wordlist))
-	word2 = searchForWord(word2_len, len(wordlist))
+	word1 = searchForWord(word1_len, len(WORDLIST))
+	word2 = searchForWord(word2_len, len(WORDLIST))
 
 	word1 = capitalizeTransform(word1)
 	word2 = capitalizeTransform(word2)
@@ -135,9 +135,9 @@ def longPassword(pwdlen):
 	word2_len = int(pwdlen / 3) - csprng(0, int(pwdlen / 6)+1)
 	word3_len = int(pwdlen / 3) - csprng(0, int(pwdlen / 6)+1)
 
-	word1 = searchForWord(word1_len, len(wordlist))
-	word2 = searchForWord(word2_len, len(wordlist))
-	word3 = searchForWord(word3_len, len(wordlist))
+	word1 = searchForWord(word1_len, len(WORDLIST))
+	word2 = searchForWord(word2_len, len(WORDLIST))
+	word3 = searchForWord(word3_len, len(WORDLIST))
 
 	word1 = capitalizeTransform(word1)
 	word2 = capitalizeTransform(word2)
