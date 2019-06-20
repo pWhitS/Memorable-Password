@@ -203,32 +203,32 @@ def main():
 
 		while not chosen:
 			passwordType = csprng(0, 3) #Randomly select password type
-			retval = ""
+			pwd = ""
 
 			if passwordType == 0:
-				retval = smallPassword(PASSWORD_LENGTH)
+				pwd = smallPassword(PASSWORD_LENGTH)
 			elif passwordType == 1:
-				retval = mediumPassword(PASSWORD_LENGTH)
+				pwd = mediumPassword(PASSWORD_LENGTH)
 			elif passwordType == 2:
-				retval = longPassword(PASSWORD_LENGTH)
+				pwd = longPassword(PASSWORD_LENGTH)
 
-			if retval != "-1":
+			if pwd != "-1":
 				chosen = True
 
 			#removes infinite loop possibility
 			count += 1
 			if count > 1000:
-				retval = smallPassword(PASSWORD_LENGTH)
-				if retval == "-1":
-					retval = mediumPassword(PASSWORD_LENGTH)
-				if retval == "-1":
-					retval = longPassword(PASSWORD_LENGTH)
-				if retval == "-1":
-					retval = "[-] Error: Somthing went wrong."
+				pwd = smallPassword(PASSWORD_LENGTH)
+				if pwd == "-1":
+					pwd = mediumPassword(PASSWORD_LENGTH)
+				if pwd == "-1":
+					pwd = longPassword(PASSWORD_LENGTH)
+				if pwd == "-1":
+					pwd = "[-] Error: Somthing went wrong."
 				chosen = True
 
 		if chosen:
-			print(retval)
+			print(pwd)
 
 
 if __name__ == "__main__":
