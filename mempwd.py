@@ -1,4 +1,5 @@
 from random import SystemRandom
+from random import choice
 import argparse
 import string
 import math
@@ -48,6 +49,23 @@ def searchForWord(wordlen, listsize):
 			notChosen = False
 
 	return retword
+
+
+def getRandomWordWithLimit(limit=100):
+	notChosen = True
+	word = ""
+
+	while notChosen:
+		index = csprng(0, len(wordlist))
+		length = len(wordlist[index])
+
+		if length > limit:
+			continue
+
+		word = wordlist[index]
+		notChosen = False
+
+	return word
 
 
 def generateCharacters(numchars):
@@ -153,6 +171,21 @@ def longPassword(pwdlen):
 	return password
 
 
+def generatePassPhrase(numwords, delim):
+	if numwords < 2 or numwords > 6:
+		return "-1"
+
+	if delim is None:
+		delim = choice("!@#$%^&*()_+=-`~[]|;':,./<>?")
+
+	phrase_list = []
+	for i in range(numwords):
+		phrase_list.append(getRandomWordWithLimit())
+
+	return delim.join(phrase_list)
+
+
+
 def initArgsParser():
 	parser = argparse.ArgumentParser(description="Memorable Password Generator")
 	parser.add_argument('length', metavar='N', type=int,
@@ -165,6 +198,10 @@ def initArgsParser():
 						help="Exclude capitalization, lowercase only.")
 	parser.add_argument('-s', action="store_true",
 						help="Exclude special characters.")
+	parser.add_argument('-p', "--passphrase", dest="passphrase", action="store_true",
+						help="Generate PassPhrase. Some other agruments will be ignored.")
+	parser.add_argument('-d' "--delimiter", dest="delim", type=str,
+						help="Passphrase word delimiter. Exclude for random delimiter.")
 
 	parser.add_argument
 
@@ -191,15 +228,23 @@ def main():
 		display_num = DEFAULT_DISPLAY_NUM
 
 	loadWords()
+
 	
 	PASSWORD_LENGTH = int(args.length)
-	if PASSWORD_LENGTH < 6:
+	if not args.passphrase and PASSWORD_LENGTH < 6:
 		print("[-] Error: password cannot be less than 6 characters.")
 		return 
+	elif args.passphrase and (PASSWORD_LENGTH < 2 or PASSWORD_LENGTH > 6):
+		print("[-] Error: passphrase must be between 2 and 6 words long.")
+		return
 
 	for i in range(display_num):
 		chosen = False
 		count = 0
+
+		if args.passphrase:
+			pwd = generatePassPhrase(PASSWORD_LENGTH, args.delim)
+			chosen = True
 
 		while not chosen:
 			passwordType = csprng(0, 3) #Randomly select password type
@@ -210,7 +255,7 @@ def main():
 			elif passwordType == 1:
 				pwd = mediumPassword(PASSWORD_LENGTH)
 			elif passwordType == 2:
-				pwd = longPassword(PASSWORD_LENGTH)
+				pwd = longPassword(PASSWORD_LENGTH)		
 
 			if pwd != "-1":
 				chosen = True
